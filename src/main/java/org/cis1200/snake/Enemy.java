@@ -1,7 +1,6 @@
 package org.cis1200.snake;
 
 import java.awt.*;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -32,18 +31,21 @@ public class Enemy extends MovingObject {
         if (obj instanceof FastFruit) {
             return true;
         }
-        if (obj instanceof SlowFruit) {
-            return true;
-        }
-        return false;
+        return obj instanceof SlowFruit;
     }
 
     private boolean goodMove(GameObject obj) {
         return obj instanceof Grass;
     }
 
+    private int distance(GameObject obj1, GameObject obj2) {
+        int xDistance = obj1.getX() - obj2.getX();
+        int yDistance = obj1.getY() - obj2.getY();
+        return (int) Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    }
+
     public void chooseGoodDirection(Field f) {
-        HashSet<Direction> possibleDirections = new HashSet<>();
+        //HashSet<Direction> possibleDirections = new HashSet<>();
         GameObject head = getHead();
         int headX = head.getX();
         int headY = head.getY();
@@ -67,28 +69,50 @@ public class Enemy extends MovingObject {
             setDirection(Direction.UP);
             return;
         }
+        // if no ideal moves, choose move that guides the snake to the fruit
+        int lowestDistanceToFruit = Integer.MAX_VALUE;
+        Direction[] possibleDirections = new Direction[10];
+        Direction bestMove = null;
+        int currIndex = 0;
         if (goodMove(rightBlock)) {
-            possibleDirections.add(Direction.RIGHT);
+            int newDistance = distance(rightBlock, f.getCurrFruit());
+            if (newDistance < lowestDistanceToFruit) {
+                lowestDistanceToFruit = newDistance;
+                bestMove = Direction.RIGHT;
+            }
+            possibleDirections[currIndex++] = Direction.RIGHT;
         }
         if (goodMove(leftBlock)) {
-            possibleDirections.add(Direction.LEFT);
+            int newDistance = distance(leftBlock, f.getCurrFruit());
+            if (newDistance < lowestDistanceToFruit) {
+                lowestDistanceToFruit = newDistance;
+                bestMove = Direction.LEFT;
+            }
+            possibleDirections[currIndex++] = Direction.LEFT;
         }
         if (goodMove(topBlock)) {
-            possibleDirections.add(Direction.UP);
+            int newDistance = distance(topBlock, f.getCurrFruit());
+            if (newDistance < lowestDistanceToFruit) {
+                lowestDistanceToFruit = newDistance;
+                bestMove = Direction.UP;
+            }
+            possibleDirections[currIndex++] = Direction.UP;
         }
         if (goodMove(bottomBlock)) {
-            possibleDirections.add(Direction.DOWN);
-        }
-        if (!possibleDirections.isEmpty()) {
-            Random rand = new Random();
-            int i = 0;
-            int index = rand.nextInt(possibleDirections.size());
-            for (Direction direction : possibleDirections) {
-                if (i == index) {
-                    setDirection(direction);
-                }
-                i++;
+            int newDistance = distance(bottomBlock, f.getCurrFruit());
+            if (newDistance < lowestDistanceToFruit) {
+                bestMove = Direction.DOWN;
             }
+            possibleDirections[currIndex++] = Direction.DOWN;
+        }
+        // increase the probability of the bestMove occurring
+        for (int i = 0; i < 5; i++) {
+            possibleDirections[currIndex++] = bestMove;
+        }
+        if (possibleDirections[0] != null) {
+            Random rand = new Random();
+            int randIndex = rand.nextInt(currIndex);
+            setDirection(possibleDirections[randIndex]);
         }
     }
 

@@ -9,7 +9,6 @@ import java.util.Random;
 
 /**
  * GameCourt
- *
  * This class holds the primary game logic for how different objects interact
  * with one another. Take time to understand how the timer interacts with the
  * different methods and how it repaints the GUI on every tick().
@@ -21,6 +20,7 @@ public class Field extends JPanel {
     private Snake snake; // the Black Square, keyboard control
     private Enemy enemy; // the Golden Snitch, bounces
     private boolean enemyIsAlive;
+    private GameObject currFruit;
     private HashSet<Grass> grasses = new HashSet<>();
     private HashSet<Sinkhole> sinkholes = new HashSet<>();
     private boolean snakeJustAteFruit = false;
@@ -233,7 +233,9 @@ public class Field extends JPanel {
         if (obj == null) {
             throw new IllegalArgumentException();
         }
-        grasses.remove(obj);
+        if (obj instanceof Grass) {
+            grasses.remove(obj);
+        }
     }
 
     public void addGrass(Grass obj) {
@@ -300,6 +302,10 @@ public class Field extends JPanel {
         requestFocusInWindow();
     }
 
+    public GameObject getCurrFruit() {
+        return currFruit;
+    }
+
     private Grass chooseRandomGrass() {
         if (!grasses.isEmpty()) {
             Random rand = new Random();
@@ -320,7 +326,9 @@ public class Field extends JPanel {
         if (grass == null) {
             return;
         }
-        setObjectInField(new Fruit(grass.getX(), grass.getY()));
+        GameObject fruit = new Fruit(grass.getX(), grass.getY());
+        setObjectInField(fruit);
+        currFruit = fruit;
         removeGrass(grass);
     }
 
@@ -331,13 +339,24 @@ public class Field extends JPanel {
         }
         Random rand = new Random();
         int random = rand.nextInt(3);
+        GameObject fruit = null;
         switch (random) {
-            case 0 -> setObjectInField(new Fruit(grass.getX(), grass.getY()));
-            case 1 -> setObjectInField(new SlowFruit(grass.getX(), grass.getY()));
-            case 2 -> setObjectInField(new FastFruit(grass.getX(), grass.getY()));
+            case 0 -> {
+                fruit = new Fruit(grass.getX(), grass.getY());
+                setObjectInField(fruit);
+            }
+            case 1 -> {
+                fruit = new SlowFruit(grass.getX(), grass.getY());
+                setObjectInField(fruit);
+            }
+            case 2 -> {
+                fruit = new FastFruit(grass.getX(), grass.getY());
+                setObjectInField(fruit);
+            }
             default -> System.out.println("Random generator issue");
         }
         removeGrass(grass);
+        currFruit = fruit;
     }
 
     private void removeSinkholes() {
