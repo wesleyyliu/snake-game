@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2023</copyright>
     <item>
-      <title>File: 1,
+      <title>File: 14,
              Errors: 0,
-             Warnings: 0,
+             Warnings: 2,
              Infos: 0
       </title>
             <link>https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html</link>
@@ -46,7 +46,189 @@ under the License.
           <tbody>
                           <tr>
                 <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.Enemy.java">org/cis1200/snake/Enemy.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.GameObject.java">org/cis1200/snake/GameObject.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.SnakeBlock.java">org/cis1200/snake/SnakeBlock.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.Sinkhole.java">org/cis1200/snake/Sinkhole.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.EnemyBlock.java">org/cis1200/snake/EnemyBlock.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.Field.java">org/cis1200/snake/Field.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.FastFruit.java">org/cis1200/snake/FastFruit.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.SlowFruit.java">org/cis1200/snake/SlowFruit.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snakeTest.GameTest.java">org/cis1200/snakeTest/GameTest.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.RunSnake.java">org/cis1200/snake/RunSnake.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.Fruit.java">org/cis1200/snake/Fruit.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.MovingObject.java">org/cis1200/snake/MovingObject.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.Snake.java">org/cis1200/snake/Snake.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://www.seas.upenn.edu/~cis120/current/hw/hw09//checkstyle.html#org.cis1200.snake.Grass.java">org/cis1200/snake/Grass.java</a>
                 </td>
                 <td>
                   0

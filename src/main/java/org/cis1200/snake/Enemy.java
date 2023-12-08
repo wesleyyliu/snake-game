@@ -45,7 +45,6 @@ public class Enemy extends MovingObject {
     }
 
     public void chooseGoodDirection(Field f) {
-        //HashSet<Direction> possibleDirections = new HashSet<>();
         GameObject head = getHead();
         int headX = head.getX();
         int headY = head.getY();

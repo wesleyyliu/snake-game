@@ -53,19 +53,16 @@ public abstract class MovingObject {
     }
 
     public GameObject getSecondBlock() {
-        int i = 0;
-        for (GameObject snakeBlock : obj) {
-            if (i == 1) {
-                return snakeBlock;
-            }
-            i++;
+        if (obj.size() < 2) {
+            return null;
         }
-        return null;
+        return obj.get(1);
     }
 
     public LinkedList<GameObject> getMovingObject() {
         return new LinkedList<>(obj);
     }
+
     public abstract void drawHead(Graphics g);
 
     public abstract void move(Field f);

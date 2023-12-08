@@ -8,17 +8,17 @@ import java.util.HashSet;
 import java.util.Random;
 
 /**
- * GameCourt
- * This class holds the primary game logic for how different objects interact
- * with one another. Take time to understand how the timer interacts with the
- * different methods and how it repaints the GUI on every tick().
+ * Field
+ * This class keeps control of the internal state of the game and controls the logic
+ * for the different objects. It calls the tick() method to move objects in each time
+ * interval.
  */
 public class Field extends JPanel {
 
-    // the state of the game logic
+    // 2D array storing all GameObjects
     private final GameObject[][] gameField;
-    private Snake snake; // the Black Square, keyboard control
-    private Enemy enemy; // the Golden Snitch, bounces
+    private Snake snake;
+    private Enemy enemy;
     private boolean enemyIsAlive;
     private GameObject currFruit;
     private HashSet<Grass> grasses = new HashSet<>();
@@ -28,7 +28,7 @@ public class Field extends JPanel {
     private boolean speedMode = false;
     private boolean sinkholeMode = false;
     private boolean enemyMode = false;
-    private boolean playing = false; // whether the game is running
+    private boolean playing = true; // whether the game is running
     private final JLabel status; // Current status text, i.e. "Running..."
     private int currScore = 0;
     private int highScore = 0;
@@ -38,20 +38,23 @@ public class Field extends JPanel {
     // Game constants
     public static final int FIELD_WIDTH = 600;
     public static final int FIELD_HEIGHT = 600;
-
     public static final int BLOCK_WIDTH = 40;
     public static final int BLOCK_HEIGHT = 40;
 
-    // Update interval for timer, in milliseconds
+    // timer keeping track of each game attempt
     private Timer startTimer;
     private int currTime;
+    // timer that changes to control tick speed for speed mode
     private Timer intervalTimer;
     private final int initInterval = 150;
 
+    // assumes all labels are not null
     public Field(JLabel status, JLabel scoreLabel, JLabel highScoreLabel, JLabel timeLabel) {
         int arrayWidth = FIELD_WIDTH / BLOCK_WIDTH;
         int arrayHeight = FIELD_HEIGHT / BLOCK_HEIGHT;
+        // instantiates the appropriate size 2D array
         gameField = new GameObject[arrayHeight][arrayWidth];
+        // fills the 2D array with grass
         for (int i = 0; i < arrayHeight; i++) {
             for (int j = 0; j < arrayWidth; j++) {
                 Grass grassBlock = new Grass(j, i);
@@ -59,35 +62,32 @@ public class Field extends JPanel {
                 grasses.add(grassBlock);
             }
         }
+        // create a snake
         snake = new Snake();
+        // replace the corresponding grass blocks with snake blocks
         for (GameObject snakeBlock : snake.getMovingObject()) {
             int y = snakeBlock.getY();
             int x = snakeBlock.getX();
             grasses.remove((Grass) gameField[y][x]);
             gameField[y][x] = snakeBlock;
         }
+        // generates a fruit in the field
         generateFruit();
-        // creates border around the court area, JComponent method
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        // The timer is an object which triggers an action periodically with the
-        // given INTERVAL. We register an ActionListener with this timer, whose
-        // actionPerformed() method is called each time the timer triggers. We
-        // define a helper method called tick() that actually does everything
-        // that should be done in a single time step.
+        // timer for speed mode
         intervalTimer = new Timer(initInterval, e -> tick());
-        intervalTimer.start(); // MAKE SURE TO START THE TIMER!
+        intervalTimer.start();
 
+        // timer for game
         startTimer = new Timer(1000, e -> currTime++);
         startTimer.start();
 
-        // Enable keyboard focus on the court area. When this component has the
-        // keyboard focus, key events are handled by its key listener.
+        // creates border around the field
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // keyboard focus for the field
         setFocusable(true);
 
-        // This key listener allows the square to move as long as an arrow key
-        // is pressed, by changing the square's velocity accordingly. (The tick
-        // method below actually moves the square.)
+        // key listener for the game
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 int snakeHeadX = snake.getHead().getX();
@@ -131,7 +131,7 @@ public class Field extends JPanel {
     }
 
     /**
-     * (Re-)set the game to its initial state.
+     * Set game back to initial state
      */
     public void reset() {
         playing = true;
@@ -139,6 +139,7 @@ public class Field extends JPanel {
         currScore = 0;
         grasses = new HashSet<>();
         sinkholes = new HashSet<>();
+        // re-populate grass
         int arrayWidth = FIELD_WIDTH / BLOCK_WIDTH;
         int arrayHeight = FIELD_HEIGHT / BLOCK_HEIGHT;
         for (int i = 0; i < arrayHeight; i++) {
@@ -148,6 +149,7 @@ public class Field extends JPanel {
                 grasses.add(grassBlock);
             }
         }
+        // populate snake
         snake = new Snake();
         for (GameObject snakeBlock : snake.getMovingObject()) {
             int y = snakeBlock.getY();
@@ -155,6 +157,7 @@ public class Field extends JPanel {
             grasses.remove((Grass) gameField[y][x]);
             gameField[y][x] = snakeBlock;
         }
+        // if the enemy mode is set on, create an enemy
         if (enemyMode) {
             enemy = new Enemy();
             for (GameObject enemyBlock : enemy.getMovingObject()) {
@@ -171,19 +174,19 @@ public class Field extends JPanel {
         currTime = 0;
         startTimer = new Timer(1000, e -> currTime++);
         startTimer.start();
-        // Make sure that this component has the keyboard focus
+        // keyboard focus for component
         requestFocusInWindow();
     }
 
     /**
-     * This method is called every time the timer defined in the constructor
-     * triggers.
+     * Method called by timer to move the game
      */
     void tick() {
         if (snake.getSize() == FIELD_WIDTH / BLOCK_WIDTH * FIELD_HEIGHT / BLOCK_HEIGHT) {
             scoreLabel.setText("Score: " + currScore);
             highScoreLabel.setText("High Score: " + highScore);
             status.setText("You win!");
+            playing = false;
         } else if (playing) {
             GameObject nextBlock = snake.getNextBlock(this);
             if (nextBlock != null) {
@@ -193,7 +196,6 @@ public class Field extends JPanel {
             if (enemyMode && enemyIsAlive) {
                 enemy.chooseGoodDirection(this);
                 GameObject enemyNextBlock = enemy.getNextBlock(this);
-                // double check what happens when null
                 if (enemyNextBlock != null) {
                     enemyNextBlock.interactWith(enemy, this);
                 }
@@ -379,6 +381,10 @@ public class Field extends JPanel {
             }
             int x = grass.getX();
             int y = grass.getY();
+            // make sure that person isn't about to lose (or else null exception occurs)
+            if (snake.getNextBlock(this) == null) {
+                return;
+            }
             // next block is location of where head will be since generateSinkhole
             // will be called before snake.move()
             int snakeX = snake.getNextBlock(this).getX();
@@ -424,5 +430,28 @@ public class Field extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(FIELD_WIDTH, FIELD_HEIGHT);
+    }
+
+    /**
+     * Functions for testing
+     */
+    public int getCurrScore() {
+        return currScore;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public HashSet<Grass> getGrasses() {
+        return new HashSet<>(grasses);
+    }
+
+    public int getNumBlocks() {
+        return (FIELD_HEIGHT / BLOCK_HEIGHT) * (FIELD_WIDTH / BLOCK_WIDTH);
+    }
+
+    public boolean getPlaying() {
+        return playing;
     }
 }

@@ -1,7 +1,6 @@
 package org.cis1200.snake;
 
 import java.awt.*;
-import java.util.LinkedList;
 
 public class Snake extends MovingObject {
     public Snake() {
