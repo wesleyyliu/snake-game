@@ -9,8 +9,10 @@ import java.util.Random;
 
 /**
  * Field
- * This class keeps control of the internal state of the game and controls the logic
- * for the different objects. It calls the tick() method to move objects in each time
+ * This class keeps control of the internal state of the game and controls the
+ * logic
+ * for the different objects. It calls the tick() method to move objects in each
+ * time
  * interval.
  */
 public class Field extends JPanel {
